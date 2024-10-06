@@ -37,48 +37,45 @@ class BackyardFlyer(Drone):
 
     def local_position_callback(self):
         """
-        TODO: Implement this method
-
         This triggers when `MsgID.LOCAL_POSITION` is received and self.local_position contains new data
         """
-        pass
+        print("local_position_callback: local_position: ", self.local_position, ", global_position: ", self.global_position, ", global_home: ", global_home)
 
     def velocity_callback(self):
         """
-        TODO: Implement this method
-
         This triggers when `MsgID.LOCAL_VELOCITY` is received and self.local_velocity contains new data
         """
-        pass
+        print("velocity callback")
 
     def state_callback(self):
         """
-        TODO: Implement this method
-
         This triggers when `MsgID.STATE` is received and self.armed and self.guided contain new data
         """
-        pass
+        print("state callback: armed: ", self.armed, ", guided: ", self.guided)
+        if self.is_manual_state: 
+            self.arming_transition
+
 
     def calculate_box(self):
-        """TODO: Fill out this method
-        
+        """
         1. Return waypoints to fly a box
         """
-        pass
+        return [[], [], [], []]
 
     def arming_transition(self):
-        """TODO: Fill out this method
-        
+        """
         1. Take control of the drone
         2. Pass an arming command
         3. Set the home location to current position
         4. Transition to the ARMING state
         """
         print("arming transition")
+        self.take_control()
+        self.arm()
+        self.flight_state = States.ARMING
 
     def takeoff_transition(self):
-        """TODO: Fill out this method
-        
+        """
         1. Set target_position altitude to 3.0m
         2. Command a takeoff to 3.0m
         3. Transition to the TAKEOFF state
@@ -86,28 +83,28 @@ class BackyardFlyer(Drone):
         print("takeoff transition")
 
     def waypoint_transition(self):
-        """TODO: Fill out this method
-    
+        """
         1. Command the next waypoint position
         2. Transition to WAYPOINT state
         """
         print("waypoint transition")
 
     def landing_transition(self):
-        """TODO: Fill out this method
-        
+        """
         1. Command the drone to land
         2. Transition to the LANDING state
         """
         print("landing transition")
+        
 
     def disarming_transition(self):
-        """TODO: Fill out this method
-        
+        """
         1. Command the drone to disarm
         2. Transition to the DISARMING state
         """
         print("disarm transition")
+        self.disarm()
+        self.flight_state = States.DISARMING
 
     def manual_transition(self):
         """This method is provided
@@ -137,6 +134,9 @@ class BackyardFlyer(Drone):
         self.connection.start()
         print("Closing log file")
         self.stop_log()
+
+    def is_manual_state(self):
+        return not self.armed and not self.guided
 
 
 if __name__ == "__main__":
