@@ -39,7 +39,7 @@ class BackyardFlyer(Drone):
         """
         This triggers when `MsgID.LOCAL_POSITION` is received and self.local_position contains new data
         """
-        print("local_position_callback: local_position: ", self.local_position, ", global_position: ", self.global_position, ", global_home: ", global_home)
+        print("local_position_callback: local_position: ", self.local_position, ", global_position: ", self.global_position, ", global_home: ", self.global_home)
 
     def velocity_callback(self):
         """
