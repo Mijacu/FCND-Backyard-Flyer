@@ -192,7 +192,7 @@ class BackyardFlyer(Drone):
     
     def at_slow_velocity(self):
         # print("at_slow_velocity: ", LA.norm(self.local_velocity))
-        return LA.norm(self.local_velocity) < 0.5
+        return LA.norm(self.local_velocity) < self.error
     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
